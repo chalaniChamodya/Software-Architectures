@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class ItemDaoImpl implements ItemDAO{
     @Override
-    public ArrayList<ItemDTO> getAllItem() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemTM> getAllItem() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
 
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery("SELECT * FROM Item");
 
-        ArrayList<ItemDTO> allItem = new ArrayList<>();
+        ArrayList<ItemTM> allItem = new ArrayList<>();
 
         while (rst.next()) {
-            ItemDTO dto = new ItemDTO(
+            ItemTM dto = new ItemTM(
                     rst.getString("code"),
                     rst.getString("description"),
                     rst.getBigDecimal("unitPrice"),

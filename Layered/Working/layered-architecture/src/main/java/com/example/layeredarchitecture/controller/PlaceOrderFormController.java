@@ -370,7 +370,11 @@ public class PlaceOrderFormController {
 //                connection.setAutoCommit(true);
 //                return false;
 //            }
-            BigDecimal total = new BigDecimal(lblTotal.getText());
+            BigDecimal total = new BigDecimal(0) ;
+            for (OrderDetailTM detail : tblOrderDetails.getItems()) {
+                total = total.add(detail.getTotal());
+            }
+            System.out.println(total);
             String name = placeOrderDAO.getCustomerName(customerId);
             OrderDTO orderDTO = new OrderDTO(orderId, orderDate, customerId, name,total);
 

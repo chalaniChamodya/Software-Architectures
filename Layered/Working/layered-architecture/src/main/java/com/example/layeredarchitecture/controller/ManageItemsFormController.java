@@ -80,7 +80,8 @@ public class ManageItemsFormController {
 //            while (rst.next()) {
 //                tblItems.getItems().add(new ItemTM(rst.getString("code"), rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand")));
 //            }
-            ArrayList<ItemDTO> allItem = itemDAO.getAllItem();
+            ArrayList<ItemTM> allItem = itemDAO.getAllItem();
+            tblItems.getItems().addAll(allItem);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {

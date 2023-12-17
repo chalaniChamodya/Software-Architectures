@@ -101,7 +101,7 @@ public class PlaceOrderDaoImpl implements PlaceOrderDAO{
         ArrayList<String> ItemId = new ArrayList<>();
 
         while (rst.next()){
-            ItemId.add(rst.getString("id"));
+            ItemId.add(rst.getString("code"));
         }
         return ItemId;
     }
