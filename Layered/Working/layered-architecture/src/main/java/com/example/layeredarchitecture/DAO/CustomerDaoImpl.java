@@ -1,5 +1,6 @@
 package com.example.layeredarchitecture.DAO;
 
+import com.example.layeredarchitecture.SQLUtill.SQL;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 
@@ -9,12 +10,13 @@ import java.util.ArrayList;
 public class CustomerDaoImpl implements CustomerDAO{
     @Override
     public ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-
-        Statement stm = connection.createStatement();
-        ResultSet resultSet = stm.executeQuery("SELECT * FROM Customer");
-
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//
+//        Statement stm = connection.createStatement();
+//        ResultSet resultSet = stm.executeQuery("SELECT * FROM Customer");
+//
         ArrayList<CustomerDTO> allCustomer = new ArrayList<>();
+        ResultSet resultSet = SQL.execute("SELECT * FROM Customer");
 
         while (resultSet.next()){
             CustomerDTO customerDTO = new CustomerDTO(
@@ -29,42 +31,36 @@ public class CustomerDaoImpl implements CustomerDAO{
 
     @Override
     public boolean saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
-        pstm.setString(1, dto.getId());
-        pstm.setString(2,dto.getName());
-        pstm.setString(3,dto.getAddress());
-
-        return pstm.executeUpdate() > 0;
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//
+//        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
+        return SQL.execute("INSERT INTO Customer (id,name, address) VALUES (?,?,?)", dto.getId(),dto.getName(), dto.getAddress());
     }
 
     @Override
     public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getAddress());
-        pstm.setString(3, dto.getId());
-
-        return pstm.executeUpdate() > 0;
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//
+//        PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
+        return SQL.execute("UPDATE Customer SET name=?, address=? WHERE id=?", dto.getName(), dto.getAddress(), dto.getId());
     }
 
     @Override
     public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
-        pstm.setString(1, id);
-
-        return pstm.executeUpdate() > 0;
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//
+//        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
+//        pstm.setString(1, id);
+//
+//        return pstm.executeUpdate() > 0;
+        return SQL.execute("DELETE FROM Customer WHERE id=?", id);
     }
 
     @Override
     public String generateNewId() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        ResultSet rst = connection.createStatement().executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//        ResultSet rst = connection.createStatement().executeQuery("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
+        ResultSet rst = SQL.execute("SELECT id FROM Customer ORDER BY id DESC LIMIT 1");
         if (rst.next()) {
             String id = rst.getString("id");
             int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
@@ -76,11 +72,46 @@ public class CustomerDaoImpl implements CustomerDAO{
 
     @Override
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
-        pstm.setString(1, id);
-        return pstm.executeQuery().next();
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
+//        pstm.setString(1, id);
+//        return pstm.executeQuery().next();
+        ResultSet resultSet = SQL.execute("SELECT id FROM Customer WHERE id=?",id);
+        return resultSet.next();
     }
 
+    @Override
+    public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//
+//        PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer WHERE id = ? ");
+//        pstm.setString(1,id);
+//        ResultSet resultSet = pstm.executeQuery();
+//
+//        CustomerDTO dto = new CustomerDTO();
+//
+//        while (resultSet.next()){
+//            dto.setId(id);
+//            dto.setName(resultSet.getString("name"));
+//            dto.setAddress(resultSet.getString("address"));
+//        }
+//        return dto;
+        return SQL.execute("SELECT * FROM Customer WHERE id = ? ", id);
+    }
 
+    @Override
+    public ArrayList<String> getAllCustomerId() throws SQLException, ClassNotFoundException {
+//        Connection connection = DBConnection.getDbConnection().getConnection();
+//        Statement stm = connection.createStatement();
+//        ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
+//
+        ArrayList<String> customerId = new ArrayList<>();
+        ResultSet rst = SQL.execute("SELECT * FROM Customer");
+//
+        while (rst.next()){
+            customerId.add(rst.getString("id"));
+        }
+        return customerId;
+
+    }
 }

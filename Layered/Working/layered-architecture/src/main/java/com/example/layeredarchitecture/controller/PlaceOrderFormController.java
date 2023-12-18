@@ -1,7 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.DAO.PlaceOrderDAO;
-import com.example.layeredarchitecture.DAO.PlaceOrderDaoImpl;
+import com.example.layeredarchitecture.DAO.*;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -54,6 +53,8 @@ public class PlaceOrderFormController {
     private String orderId;
 
     PlaceOrderDAO placeOrderDAO = new PlaceOrderDaoImpl();
+    CustomerDAO customerDAO = new CustomerDaoImpl();
+    ItemDAO itemDAO = new ItemDaoImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
@@ -112,7 +113,7 @@ public class PlaceOrderFormController {
 //                        rst.next();
 //                        CustomerDTO customerDTO = new CustomerDTO(newValue + "", rst.getString("name"), rst.getString("address"));
 
-                        CustomerDTO customerDTO = placeOrderDAO.searchCustomer(newValue + "");
+                        CustomerDTO customerDTO = customerDAO.searchCustomer(newValue + "");
                         txtCustomerName.setText(customerDTO.getName());
                     } catch (SQLException e) {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
@@ -145,7 +146,7 @@ public class PlaceOrderFormController {
 //                    rst.next();
 //                    ItemDTO item = new ItemDTO(newItemCode + "", rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand"));
 
-                    ItemDTO item = placeOrderDAO.findItem(newItemCode);
+                    ItemDTO item = itemDAO.findItem(newItemCode);
 
                     txtDescription.setText(item.getDescription());
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
@@ -195,7 +196,7 @@ public class PlaceOrderFormController {
 //        pstm.setString(1, code);
 //        return pstm.executeQuery().next();
 
-        return placeOrderDAO.existItem(code);
+        return itemDAO.existItem(code);
     }
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
@@ -204,7 +205,7 @@ public class PlaceOrderFormController {
 //        pstm.setString(1, id);
 //        return pstm.executeQuery().next();
 
-        return placeOrderDAO.existCustomer(id);
+        return customerDAO.existCustomer(id);
     }
 
     public String generateNewOrderId() {
@@ -233,7 +234,7 @@ public class PlaceOrderFormController {
 //                cmbCustomerId.getItems().add(rst.getString("id"));
 //            }
 
-            ArrayList<String> idList = placeOrderDAO.getAllCustomerId();
+            ArrayList<String> idList = customerDAO.getAllCustomerId();
             cmbCustomerId.getItems().addAll(idList);
 
         } catch (SQLException e) {
