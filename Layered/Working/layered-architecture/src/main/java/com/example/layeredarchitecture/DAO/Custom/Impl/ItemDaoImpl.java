@@ -105,7 +105,13 @@ public class ItemDaoImpl implements ItemDAO {
 
     @Override
     public ArrayList<String> getAllId() throws SQLException, ClassNotFoundException {
-        return null;
+        ArrayList<String> itemId = new ArrayList<>();
+
+        ResultSet rst = SQL.execute("SELECT * FROM Item");
+        while (rst.next()){
+            itemId.add(rst.getString("code"));
+        }
+        return itemId;
     }
 
 }
