@@ -1,8 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.DAO.CustomerDAO;
-import com.example.layeredarchitecture.DAO.CustomerDaoImpl;
-import com.example.layeredarchitecture.db.DBConnection;
+import com.example.layeredarchitecture.DAO.Custom.CustomerDAO;
+import com.example.layeredarchitecture.DAO.Custom.Impl.CustomerDaoImpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.jfoenix.controls.JFXButton;
@@ -86,7 +85,7 @@ public class ManageCustomersFormController {
 //        }
 
         try {
-            ArrayList<CustomerDTO> allCustomer = customerDAO.getAllCustomer();
+            ArrayList<CustomerDTO> allCustomer = customerDAO.getAll();
 
             for(CustomerDTO dto : allCustomer){
                 tblCustomers.getItems().add(
@@ -172,7 +171,7 @@ public class ManageCustomersFormController {
 //                pstm.setString(3, address);
 //                pstm.executeUpdate();
 
-                boolean isSaved = customerDAO.saveCustomer(new CustomerDTO(id, name, address));
+                boolean isSaved = customerDAO.save(new CustomerDTO(id, name, address));
 
                 if(isSaved){
                     tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -198,7 +197,7 @@ public class ManageCustomersFormController {
 //                pstm.setString(3, id);
 //                pstm.executeUpdate();
 
-                boolean isUpdate = customerDAO.updateCustomer(new CustomerDTO(id,name, address));
+                boolean isUpdate = customerDAO.update(new CustomerDTO(id,name, address));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
@@ -222,7 +221,7 @@ public class ManageCustomersFormController {
 //        pstm.setString(1, id);
 //        return pstm.executeQuery().next();
 
-        return customerDAO.existCustomer(id);
+        return customerDAO.exist(id);
     }
 
 
@@ -238,7 +237,7 @@ public class ManageCustomersFormController {
 //            pstm.setString(1, id);
 //            pstm.executeUpdate();
 
-            boolean isDeleted = customerDAO.deleteCustomer(id);
+            boolean isDeleted = customerDAO.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();
