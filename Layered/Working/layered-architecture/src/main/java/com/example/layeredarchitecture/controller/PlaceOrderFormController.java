@@ -1,10 +1,7 @@
 package com.example.layeredarchitecture.controller;
 
 import com.example.layeredarchitecture.DAO.Custom.*;
-import com.example.layeredarchitecture.DAO.Custom.Impl.CustomerDaoImpl;
-import com.example.layeredarchitecture.DAO.Custom.Impl.ItemDaoImpl;
-import com.example.layeredarchitecture.DAO.Custom.Impl.OrderDaoImpl;
-import com.example.layeredarchitecture.DAO.Custom.Impl.OrderDetailDaoImpl;
+import com.example.layeredarchitecture.DAO.Custom.Impl.*;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -60,6 +57,7 @@ public class PlaceOrderFormController {
     CustomerDAO customerDAO = new CustomerDaoImpl();
     ItemDAO itemDAO = new ItemDaoImpl();
     OrderDetailDAO orderDetailDAO = new OrderDetailDaoImpl();
+    QueryDAO queryDAO = new QueryDaoImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
@@ -120,6 +118,7 @@ public class PlaceOrderFormController {
 
                         CustomerDTO customerDTO = customerDAO.search(newValue + "");
                         txtCustomerName.setText(customerDTO.getName());
+                        queryDAO.customerOrderDetail(new CustomerDTO(newValue + ""));
                     } catch (SQLException e) {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
                     }
