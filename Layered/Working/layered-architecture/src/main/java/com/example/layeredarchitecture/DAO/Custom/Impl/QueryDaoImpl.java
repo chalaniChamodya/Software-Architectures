@@ -11,6 +11,8 @@ public class QueryDaoImpl implements QueryDAO {
     @Override
     public void customerOrderDetail(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQL.execute("SELECT c.name, c.address, o.oid FROM Customer c LEFT JOIN Orders o ON c.id = o.customerID WHERE c.id = ? ", customerDTO.getId());
-        System.out.println("Customer name : "+ rst.getString(1)+ "\nAddress : "+rst.getString(2) + "\nOrder IDs : "+rst.getString(3));
+        while(rst.next()){
+            System.out.println("Customer name : "+ rst.getString(1)+ "\nAddress : "+rst.getString(2) + "\nOrder IDs : "+rst.getString(3));
+        }
     }
 }
