@@ -2,7 +2,7 @@ package com.example.layeredarchitecture.DAO.Custom.Impl;
 
 import com.example.layeredarchitecture.DAO.Custom.QueryDAO;
 import com.example.layeredarchitecture.SQLUtill.SQL;
-import com.example.layeredarchitecture.model.CustomerDTO;
+import com.example.layeredarchitecture.DTO.CustomerDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,13 +3,9 @@ package com.example.layeredarchitecture.DAO.Custom.Impl;
 import com.example.layeredarchitecture.DAO.Custom.OrderDAO;
 import com.example.layeredarchitecture.SQLUtill.SQL;
 import com.example.layeredarchitecture.db.DBConnection;
-import com.example.layeredarchitecture.model.ItemDTO;
-import com.example.layeredarchitecture.model.OrderDTO;
-import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.DTO.OrderDTO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrderDaoImpl implements OrderDAO {
 

@@ -1,18 +1,16 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.BO.CustomerBO;
-import com.example.layeredarchitecture.BO.Impl.CustomerBoImpl;
-import com.example.layeredarchitecture.BO.Impl.ItemBoImpl;
-import com.example.layeredarchitecture.BO.Impl.PlaceOrderBoImpl;
-import com.example.layeredarchitecture.BO.ItemBO;
-import com.example.layeredarchitecture.BO.PlaceOrderBO;
+import com.example.layeredarchitecture.BO.Custom.CustomerBO;
+import com.example.layeredarchitecture.BO.Custom.Impl.CustomerBoImpl;
+import com.example.layeredarchitecture.BO.Custom.Impl.ItemBoImpl;
+import com.example.layeredarchitecture.BO.Custom.ItemBO;
+import com.example.layeredarchitecture.BO.Custom.PlaceOrderBO;
+import com.example.layeredarchitecture.DAO.BOFactory;
 import com.example.layeredarchitecture.DAO.Custom.*;
 import com.example.layeredarchitecture.DAO.Custom.Impl.*;
-import com.example.layeredarchitecture.db.DBConnection;
-import com.example.layeredarchitecture.model.CustomerDTO;
-import com.example.layeredarchitecture.model.ItemDTO;
-import com.example.layeredarchitecture.model.OrderDTO;
-import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.DTO.CustomerDTO;
+import com.example.layeredarchitecture.DTO.ItemDTO;
+import com.example.layeredarchitecture.DTO.OrderDetailDTO;
 import com.example.layeredarchitecture.view.tdm.OrderDetailTM;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -67,7 +65,7 @@ public class PlaceOrderFormController {
     QueryDAO queryDAO = new QueryDaoImpl();
     CustomerBO customerBO = new CustomerBoImpl();
     ItemBO itemBO = new ItemBoImpl();
-    PlaceOrderBO placeOrderBO = new PlaceOrderBoImpl();
+    PlaceOrderBO placeOrderBO = (PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ORDER);
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
